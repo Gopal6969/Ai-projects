@@ -1,0 +1,85 @@
+n = int(input("Enter the number of nodes: "))  # Number of nodes
+m = int(input("Enter the number of edges: "))  # Number of edges
+graph = [[] for _ in range(n)]
+visited = [False] * n  # List for visited nodes with the size n.
+queue = []  # Initialize a queue
+
+def addEdge(v, w):
+    graph[v].append(w)  # Adds edges to the list
+
+for i in range(m):
+    p = input("From node to: ")
+    q1, q2 = p.split()
+    q1, q2 = int(q1), int(q2)
+    addEdge(q1, q2)
+
+def DFS(node):
+    print("DFS")
+    visited = [False] * n   # List for visited nodes with the size n.
+    def inDFS(node):
+        visited[node] = True
+        print(node, end="  ")
+        for adjacent in graph[node]:
+            if not visited[adjacent]:
+                inDFS(adjacent)  # Recursive call for depth
+    inDFS(node)
+
+def bfs(node):
+    print("BFS")
+    visited = [False] * n   # List for visited nodes with the size n.
+    visited[node] = True
+    queue = [node]
+
+    while queue:  # Creating a loop to visit each node
+        m = queue.pop(0)
+        print(m, end="   ")
+
+        for adjacent in graph[m]:
+            if not visited[adjacent]:
+                visited[adjacent] = True
+                queue.append(adjacent)
+
+def adjacency_matrix():
+    print("    ", end="")
+    for i in range(n):
+        print(i, end=" ")
+    print()
+    print("  ", end="")
+    print("---------")
+    for i in range(n):
+        print(i, "|", end=" ")
+        for j in range(n):
+            if j in graph[i]:
+                print(1, end=" ")
+            else:
+                print(0, end=" ")
+        print()
+
+def adjacency_list():
+    for i in range(n):
+        print(i, " : ", end="")
+        for j in graph[i]:
+            print(j, " ", end="")
+        print()
+
+while True:
+    print("1. Adjacency Matrix\n2. Adjacency List\n3. BFS Traversal\n4. DFS Traversal\n5. Both BFS and DFS Traversal\n6. Exit")
+    choice = int(input("Enter an option: "))
+    if choice == 1:
+        adjacency_matrix()
+    elif choice == 2:
+        adjacency_list()
+    elif choice == 3:
+        node = int(input("Enter the node at which you want to start traversing: "))
+        bfs(node)
+    elif choice == 4:
+        node = int(input("Enter the node at which you want to start traversing: "))
+        DFS(node)
+    elif choice == 5:
+        node = int(input("Enter the node at which you want to start traversing: "))
+        bfs(node)
+        print()
+        DFS(node)
+    elif choice == 6:
+        break
+    print()
